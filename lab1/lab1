@@ -1,0 +1,29 @@
+#!/usr/bin/python
+# -*- coding=utf-8 -*-
+"""
+@Author: by TN
+@Date:  2020/10/11
+@Function: lab1
+"""
+
+import requests  # This is URL handling module required for downloading files from the Internet
+import tarfile  # This is used for decompressing .tgz file
+import pandas  # This is a library that is mainly used for data manipulation and some basic analyses
+import matplotlib.pyplot as plt  # This is for making a plot similar to one in MATLAB
+
+url = "https://raw.githubusercontent.com/ageron/handson-ml/master/datasets/housing/housing.tgz"
+req = requests.get(url)
+with open('housing.tgz', 'wb') as f:
+    f.write(req.content)
+
+housing_tgz = tarfile.open("housing.tgz")
+housing_tgz.extractall()
+housing_tgz.close()
+
+housing = pandas.read_csv("housing.csv")
+housing.head()
+housing.describe()
+housing["ocean_proximity"].value_counts()
+
+housing.hist(bins=50, figsize=(20, 15))  # Do you know why we choose 50 bins? Try playing with the number of bins and observe the difference.
+plt.show()
